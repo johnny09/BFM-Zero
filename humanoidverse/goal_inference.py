@@ -77,7 +77,7 @@ def main(model_folder: Path, data_path: Path | None = None, headless: bool = Tru
     
     # Try to find goal_frames JSON file
     goal_json_paths = [
-        HUMANOIDVERSE_DIR / "data" / "robots" / "g1" / "goal_frames_lafan29dof.json",
+        HUMANOIDVERSE_DIR / "data" / "robots" / "adamsp" / "goal_frames_lafan29dof.json",
         HUMANOIDVERSE_DIR / "data" / "goal_frames_lafan29dof.json",
     ]
     goal_json = None

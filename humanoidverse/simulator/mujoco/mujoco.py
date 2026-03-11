@@ -33,7 +33,8 @@ class MuJoCo(BaseSimulator):
             self.robot_cfg.asset.xml_file
         )
         hv_root = Path(__file__).parents[2]
-        self.model_path = str(hv_root / "data/robots/g1/scene_29dof_freebase_mujoco.xml")
+        # self.model_path = str(hv_root / "data/robots/g1/scene_29dof_freebase_mujoco.xml")
+        self.model_path = str(hv_root / "data/robots/adamsp/scene_29dof_freebase_mujoco.xml")
         self.freebase = True
 
         self.model = mujoco.MjModel.from_xml_path(self.model_path)
@@ -192,6 +193,9 @@ class MuJoCo(BaseSimulator):
                     self.num_bodies -= 1
                     self.body_id = np.delete(self.body_id, np.where(self.body_id == b))
         
+        print("body_names: ", self.body_names)
+        print("robot_cfg.body_names: ", self.robot_cfg.body_names)
+
         # Validate configuration consistency.
         assert self.num_dof == len(self.robot_cfg.dof_names), "Number of DOFs must match the config."
         assert self.num_bodies == len(self.robot_cfg.body_names), "Number of bodies must match the config."
