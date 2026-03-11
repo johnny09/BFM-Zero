@@ -20,6 +20,7 @@ class MuJoCo(BaseSimulator):
         self.device = device
         self.visualize_viewer = False
         self.renderer = None
+        self._render_available = True  # set False if EGL/rendering fails
         if config.save_rendering_dir is not None:
             self.save_rendering_dir = Path(config.save_rendering_dir)
         self.render_width=400
@@ -408,17 +409,28 @@ class MuJoCo(BaseSimulator):
         Args:
             sync_frame_time (bool): Whether to synchronize the frame time.
         """
-        if self.renderer is None:
-            self.renderer = mujoco.Renderer(
-                self.model,
-                width=self.render_width,
-                height=self.render_height,
+        if self.headless or not self._render_available:
+            return None
+        try:
+            if self.renderer is None:
+                self.renderer = mujoco.Renderer(
+                    self.model,
+                    width=self.render_width,
+                    height=self.render_height,
+                )
+            self.renderer.update_scene(
+                self.data,
+                camera="track"
             )
-        self.renderer.update_scene(
-            self.data,
-            camera="track"
-        )
-        return self.renderer.render()
+            return self.renderer.render()
+        except RuntimeError as e:
+            if "EGL" in str(e) or "make_current" in str(e):
+                logger.warning(
+                    "MuJoCo EGL rendering failed (e.g. no display/headless), disabling render: %s", e
+                )
+                self._render_available = False
+                return None
+            raise
         if self.viewer is None:
             raise RuntimeError("Viewer is not initialized. Call 'setup_viewer' first.")
         return
