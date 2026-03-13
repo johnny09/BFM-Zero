@@ -43,11 +43,21 @@ def main(model_folder: Path, data_path: Path | None = None, headless: bool = Tru
     if data_path is not None:
         config["env"]["lafan_tail_path"] = str(Path(data_path).resolve())
     elif not Path(config["env"].get("lafan_tail_path", "")).exists():
-        default_path = HUMANOIDVERSE_DIR / "data" / "lafan_29dof.pkl"
-        if default_path.exists():
+        # Prefer AdamSP lafan data when present (same order as goal_frames)
+        default_candidates = [
+            HUMANOIDVERSE_DIR / "data" / "adamsp_29dof_lafan1_10s-clipped.pkl",
+            HUMANOIDVERSE_DIR / "data" / "adamsp_29dof_lafan1.pkl",
+            HUMANOIDVERSE_DIR / "data" / "lafan_29dof.pkl",
+        ]
+        default_path = None
+        for p in default_candidates:
+            if p.exists():
+                default_path = p
+                break
+        if default_path is not None:
             config["env"]["lafan_tail_path"] = str(default_path)
         else:
-            config["env"]["lafan_tail_path"] = "data/lafan_29dof.pkl"
+            config["env"]["lafan_tail_path"] = "data/adamsp_29dof_lafan1_10s-clipped.pkl"
     # import ipdb; ipdb.set_trace()
     config["env"]["hydra_overrides"].append("env.config.max_episode_length_s=10000")
     config["env"]["hydra_overrides"].append(f"env.config.headless={headless}")
@@ -117,6 +127,8 @@ def main(model_folder: Path, data_path: Path | None = None, headless: bool = Tru
         joblib.dump(z_dict, f)
 
     if save_mp4:
+        # Note: IsaacRendererWithMuJoco currently uses G1's MuJoCo scene for rendering.
+        # The simulation is AdamSP (from config); only the video mesh is G1.
         rgb_renderer = IsaacRendererWithMuJoco(render_size=256)
 
     observation, info = wrapped_env.reset(to_numpy=False)

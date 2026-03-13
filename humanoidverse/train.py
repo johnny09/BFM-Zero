@@ -77,7 +77,7 @@ class TrainConfig(BaseConfig):
 
     env: HumanoidVerseIsaacConfig = pydantic.Field(discriminator="name")
 
-    work_dir: str = pydantic.Field(default_factory=lambda: get_local_workdir("g1mujoco_train"))
+    work_dir: str = pydantic.Field(default_factory=lambda: get_local_workdir("adamspmujoco_train"))
 
     seed: int = 0
     online_parallel_envs: int = 50

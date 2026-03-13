@@ -193,8 +193,6 @@ class MuJoCo(BaseSimulator):
                     self.num_bodies -= 1
                     self.body_id = np.delete(self.body_id, np.where(self.body_id == b))
         
-        print("body_names: ", self.body_names)
-        print("robot_cfg.body_names: ", self.robot_cfg.body_names)
 
         # Validate configuration consistency.
         assert self.num_dof == len(self.robot_cfg.dof_names), "Number of DOFs must match the config."

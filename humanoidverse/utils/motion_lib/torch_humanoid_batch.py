@@ -53,7 +53,6 @@ class Humanoid_Batch:
 
         joints = sorted([j.attrib['name'] for j in tree.getroot().find("worldbody").findall('.//joint')])
         motors = sorted([m.attrib['name'] for m in tree.getroot().find("actuator").getchildren()])
-        print("motors: ", motors)
         
         assert len(motors) > 0, "No motors found in the mjcf file"
         
@@ -158,8 +157,6 @@ class Humanoid_Batch:
             return node_index
         
         _add_xml_node(xml_body_root, -1, 0)
-        print("joints_range: ", joints_range)
-        print("num_dof: ", self.num_dof)
         assert(len(joints_range) == self.num_dof) 
         return {
             "node_names": node_names,
