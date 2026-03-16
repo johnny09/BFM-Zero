@@ -105,7 +105,7 @@ class TrainConfig(BaseConfig):
     buffer_size: int = 5_000_000
 
     # WANDB
-    use_wandb: bool = False
+    use_wandb: bool = True
     wandb_ename: str | None = None
     wandb_gname: str | None = None
     wandb_pname: str | None = None
@@ -706,10 +706,10 @@ def train_bfm_zero():
         prioritization_mode='exp',
         use_trajectory_buffer=True,
         buffer_size=5120000,
-        use_wandb=False,
-        wandb_ename='yitangl',  # your wandb entity (username/team), empty = default from wandb login
-        wandb_gname='bfmzero-isaac',  # run group
-        wandb_pname='bfmzero-isaac',  # your wandb project name
+        use_wandb=True,
+        wandb_ename=None,  # your wandb entity (username/team), empty = default from wandb login
+        wandb_gname=None,  # run group
+        wandb_pname='bfmzero-isaac-pndrobot',  # your wandb project name
         load_isaac_expert_data=True,
         buffer_device='cuda',
         disable_tqdm=True,
