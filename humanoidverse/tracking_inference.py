@@ -137,7 +137,7 @@ def main(model_folder: Path, data_path: Path | None = None, headless: bool = Tru
 
     # Visualization length: match inference length so expert and policy videos align
     episode_len = z.shape[0]
-    episode_len = 100
+    episode_len = 10000
     print(f"Saving video for tracking ({episode_len} steps)")
     if save_mp4:
         rgb_renderer = IsaacRendererWithMuJoco(render_size=256)

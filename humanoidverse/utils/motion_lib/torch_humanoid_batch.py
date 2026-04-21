@@ -299,7 +299,7 @@ class Humanoid_Batch:
     
     def load_mesh(self):
         xml_base = os.path.dirname(self.mjcf_file)
-        # Read the compiler tag from the g1.xml file to find if there is a meshdir defined
+        # Read the compiler tag from the xml file to find if there is a meshdir defined
         tree = ETree.parse(self.mjcf_file)
         xml_doc_root = tree.getroot()
         compiler_tag = xml_doc_root.find("compiler")

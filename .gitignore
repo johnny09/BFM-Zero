@@ -79,3 +79,5 @@ ckpts/
 *.bak
 *.tmp
 .cache/
+
+results_*/

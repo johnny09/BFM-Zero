@@ -24,7 +24,7 @@ else:
     HUMANOIDVERSE_DIR = Path(__file__).parent.parent.parent
 
 
-def main(model_folder: Path, data_path: Path | None = None, headless: bool = True, device="cuda", simulator: str = "isaacsim", save_mp4: bool=False, disable_dr: bool = False, disable_obs_noise: bool = False, episode_len: int = 500, video_folder: str | None = None):
+def main(model_folder: Path, data_path: Path | None = None, headless: bool = True, device="cuda", simulator: str = "isaacsim", save_mp4: bool=False, disable_dr: bool = False, disable_obs_noise: bool = False, episode_len: int = 5000, video_folder: str | None = None):
 
     model_folder = Path(model_folder)
     video_folder = Path(video_folder) if video_folder is not None else model_folder / "goal_inference" / "videos"
@@ -88,7 +88,7 @@ def main(model_folder: Path, data_path: Path | None = None, headless: bool = Tru
     # Try to find goal_frames JSON file
     goal_json_paths = [
         HUMANOIDVERSE_DIR / "data" / "robots" / "adamsp" / "goal_frames_lafan29dof.json",
-        HUMANOIDVERSE_DIR / "data" / "goal_frames_lafan29dof.json",
+        # HUMANOIDVERSE_DIR / "data" / "goal_frames_lafan29dof.json",
     ]
     goal_json = None
     for path in goal_json_paths:
